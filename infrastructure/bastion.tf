@@ -32,7 +32,7 @@ resource "aws_instance" "bastion_instance" {
   associate_public_ip_address = true
 
   subnet_id = "subnet-06793f35b0f4b320d"
-  security_groups = [aws_security_group.b2c_bastion_inbound.id]
+  vpc_security_group_ids = [aws_security_group.b2c_bastion_inbound.id]
   key_name = "b2c"
 
   tags = {
