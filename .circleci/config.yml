@@ -11,7 +11,7 @@ jobs:
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
           aws-region: AWS_REGION
   init-plan-shared: 
-    #working_directory: /tmp/project/shared_infrastructure
+    working_directory: /root/project/shared_infrastructure
     docker: 
       - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
     steps: 
