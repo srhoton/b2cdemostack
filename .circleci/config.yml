@@ -46,8 +46,8 @@ workflows:
     jobs:
       - aws-cli-cred-setup:
           context: aws
-      - apply-shared
       - request-apply: 
           type: approval
-          requires: 
-            - apply-shared
+      - apply-shared: 
+          requires:
+            - request-apply

@@ -21,8 +21,7 @@ resource "aws_security_group" "b2c_rds_inbound" {
 
 resource "aws_db_subnet_group" "b2c_subnet_group" {
   name = "b2c_subnet_group"
-  #Todo: this needs not to be static
-  subnet_ids = ["subnet-0a2c86bc946914860", "subnet-04b949cadb8634247", "subnet-02ba1b10a682eb696"]
+  subnet_ids = [aws_subnet.b2c_subnets["private-1"].id, aws_subnet.b2c_subnets["private-2"].id, aws_subnet.b2c_subnets["private-3"].id]
   tags = {
     Name = "b2c_subnet_group"
   }
