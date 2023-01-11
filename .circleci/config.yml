@@ -1,0 +1,53 @@
+version: 2.1
+
+orbs: 
+  aws-cli: circleci/aws-cli@3.1.4
+jobs: 
+  aws-cli-cred-setup: 
+    executor: aws-cli/default
+    steps: 
+      - aws-cli/setup:
+          aws-access-key-id: AWS_ACCESS_KEY_ID
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+          aws-region: AWS_REGION
+  init-plan-shared: 
+    docker: 
+      - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
+    steps: 
+      - checkout
+      - run:
+          name: terraform init and plan for shared_infrastructure
+          command: | 
+            cd shared_infrastructure
+            terraform init -input=false
+            terraform plan
+  apply-shared: 
+    docker: 
+      - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
+    steps: 
+      - checkout
+      - run:
+          name: terraform 
+          command: | 
+            cd shared_infrastructure
+            terraform init -input=false
+            terraform apply -input=false -auto-approve
+workflows: 
+  aws-cli: 
+    jobs: 
+      - aws-cli-cred-setup:
+          context: aws
+  run-plan-shared: 
+    jobs:
+      - aws-cli-cred-setup:
+          context: aws
+      - init-plan-shared
+  run-apply-shared: 
+    jobs:
+      - aws-cli-cred-setup:
+          context: aws
+      - request-apply: 
+          type: approval
+      - apply-shared: 
+          requires:
+            - request-apply
