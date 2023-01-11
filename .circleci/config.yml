@@ -21,6 +21,16 @@ jobs:
             cd shared_infrastructure
             terraform init -input=false
             terraform plan
+  apply-shared: 
+    docker: 
+      - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
+    steps: 
+      - checkout
+      - run:
+          name: terraform 
+          command: | 
+            cd shared_infrastructure
+            terraform apply -input=false -auto-approve
 workflows: 
   aws-cli: 
     jobs: 
@@ -31,3 +41,12 @@ workflows:
       - aws-cli-cred-setup:
           context: aws
       - init-plan-shared
+  run-apply-shared: 
+    jobs:
+      - aws-cli-cred-setup:
+          context: aws
+      - apply-shared
+      - request-apply: 
+          type: approval
+          requires: 
+            - apply-shared
