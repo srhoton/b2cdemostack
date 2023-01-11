@@ -1,6 +1,6 @@
 terraform {
  backend "s3" {
-   bucket         = "srhoton-tfstate"
+   bucket         = "b2c-tfstate"
    key            = "b2c/shared.tfstate"
    region         = "us-west-2"
  }
