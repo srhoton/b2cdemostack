@@ -18,10 +18,7 @@ jobs:
       - run:
           name: terraform init and plan for shared_infrastructure
           command: | 
-            pwd
-            ls -al 
-            ls -al /
-            cd /${CIRCLE_PROJECT_REPONAME}.git/shared_infrastructure
+            cd shared_infrastructure
             terraform init -input=false
             terraform plan
 workflows: 
