@@ -30,6 +30,7 @@ jobs:
           name: terraform 
           command: | 
             cd shared_infrastructure
+            terraform init -input=false
             terraform apply -input=false -auto-approve
 workflows: 
   aws-cli: 
