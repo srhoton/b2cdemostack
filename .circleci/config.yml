@@ -19,6 +19,8 @@ jobs:
       - run:
           name: terraform init and plan for shared_infrastructure
           command: | 
+            pwd
+            ls -la ..
             terraform init -input=false
             terraform plan
 workflows: 
