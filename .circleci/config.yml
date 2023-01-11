@@ -10,8 +10,24 @@ jobs:
           aws-access-key-id: AWS_ACCESS_KEY_ID
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
           aws-region: AWS_REGION
+  init-plan-shared: 
+    working_directory: /tmp/project/shared_infrastructure
+    docker: 
+      - image: docker.mirror.hashicorp.services/hashicorp/terraform:light
+    steps: 
+      - checkout
+      - run:
+          name: terraform init and plan for shared_infrastructure
+          command: | 
+            terraform init -input=false
+            terraform plan
 workflows: 
   aws-cli: 
     jobs: 
       - aws-cli-cred-setup:
           context: aws
+  run-plan-shared: 
+    jobs:
+      - aws-cli-cred-setup:
+          context: aws
+      - init-plan-shared
