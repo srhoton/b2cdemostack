@@ -31,7 +31,7 @@ resource "aws_instance" "bastion_instance" {
   instance_type = "t3.micro"
   associate_public_ip_address = true
 
-  subnet_id = "subnet-06793f35b0f4b320d"
+  subnet_id = aws_subnet.b2c_subnets["public-1"].id
   vpc_security_group_ids = [aws_security_group.b2c_bastion_inbound.id]
   key_name = "b2c"
 
